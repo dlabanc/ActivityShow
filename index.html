@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Activity</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<audio id="buzzer">
+			<source src="stopTimer.mp3" type="audio/mp3" />
+			A böngésződ nem támogatja a hanglejátszást.
+		</audio>
+		<audio id="countdown">
+			<source src="countdown.mp3" type="audio/mp3" />
+			A böngésződ nem támogatja a hanglejátszást.
+		</audio>
+		<audio id="epicCountdown">
+			<source src="epicCountdown.mp3" type="audio/mp3" />
+			A böngésződ nem támogatja a hanglejátszást.
+		</audio>
+		<audio id="victory">
+			<source src="victory.mp3" type="audio/mp3" />
+			A böngésződ nem támogatja a hanglejátszást.
+		</audio>
+		<audio id="wrong">
+			<source src="buzzer.mp3" type="audio/mp3" />
+			A böngésződ nem támogatja a hanglejátszást.
+		</audio>
+		<audio id="bgMusic">
+			<source src="backgroundMusic.mp3" type="audio/mp3" />
+			A böngésződ nem támogatja a hanglejátszást.
+		</audio>
+		<audio id="bgMusicFast">
+			<source src="backgroundMusicFast.mp3" type="audio/mp3" />
+			A böngésződ nem támogatja a hanglejátszást.
+		</audio>
+		<div class="game">
+			<div class="timer"><p>Előkészületek</p></div>
+			<div class="buttons">
+				<button class="showPlayers switch"></button>
+				<button class="showCanvas switch"></button>
+			</div>
+
+			<div class="players">
+				<div class="jatekosok"></div>
+				<form class="ujJatekos">
+					<input type="text" name="jatekosNev" id="jatekosNev" placeholder="Új csapat felvétele" />
+				</form>
+				<button class="removeAllP">Játékosok törlése</button>
+			</div>
+			<div class="canvas">
+				<canvas id="drawCanvas"></canvas>
+				<div id="undoButton">Visszavonás</div>
+				<div id="clearButton">Törlés</div>
+				<div id="colorPalette">
+					<div class="colorOption" style="background-color: #000" onclick="changeCursorColor('#000')"></div>
+					<div class="colorOption" style="background-color: #ff0000" onclick="changeCursorColor('#ff0000')"></div>
+					<div class="colorOption" style="background-color: #00ff00" onclick="changeCursorColor('#00ff00')"></div>
+					<div class="colorOption" style="background-color: #0000ff" onclick="changeCursorColor('#0000ff')"></div>
+				</div>
+			</div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>
