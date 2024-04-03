@@ -183,17 +183,20 @@ document.addEventListener("keydown", function (event) {
 			pause();
 		}
 
-		if (event.code === "KeyW") {
-			//pause();
-			victory.play();
-			resetTimer();
-			document.querySelector(".timer p").innerText = "KITALÁLTAD!";
-			document.querySelector(".timer p").style.color = "green";
+		if (event.code === "Digit1") {
+			if (isPaused) {
+				victory.play();
+				resetTimer();
+				document.querySelector(".timer p").innerText = "KITALÁLTAD!";
+				document.querySelector(".timer p").style.color = "green";
+			}
 		}
 
-		if (event.code === "KeyS") {
-			wrong.play();
-			pause();
+		if (event.code === "Backquote") {
+			if (isPaused) {
+				wrong.play();
+				pause();
+			}
 		}
 	}
 });
@@ -273,7 +276,7 @@ function simulateEvent(e, eventType) {
 	const touch = e.touches[0];
 	const simulatedEvent = new MouseEvent(eventType, {
 		clientX: touch.clientX,
-		clientY: touch.clientY
+		clientY: touch.clientY,
 	});
 	canvas.dispatchEvent(simulatedEvent);
 	e.preventDefault();
