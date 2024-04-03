@@ -213,6 +213,8 @@ function pause() {
 }
 
 document.querySelector(".timer p").addEventListener("click", function () {
+	bgMusic.currentTime = 0;
+	bgMusic.pause();
 	document.querySelector(".ujJatekos").style.display = "none";
 	gameStart = true;
 	resetTimer();
