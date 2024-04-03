@@ -1,5 +1,5 @@
 const canvas = document.querySelector("#drawCanvas");
-const ctx = canvas.getContext("2d");
+const context = canvas.getContext("2d");
 const undoButton = document.querySelector("#undoButton");
 const clearButton = document.querySelector("#clearButton");
 const colorPalette = document.querySelector("#colorPalette");
@@ -184,7 +184,7 @@ document.addEventListener("keydown", function (event) {
 		}
 
 		if (event.code === "KeyW") {
-			pause();
+			//pause();
 			victory.play();
 			resetTimer();
 			document.querySelector(".timer p").innerText = "KITALÁLTAD!";
@@ -224,31 +224,31 @@ startCountdown();
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let drawing = false;
+let isDrawing = false;
 let cursorColor = "#000";
 
 function startDrawing(e) {
-	drawing = true;
-	draw(e);
+	isDrawing = true;
+	draw(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
 }
 
 function stopDrawing() {
-	drawing = false;
-	ctx.beginPath();
+	isDrawing = false;
+	context.beginPath();
 	saveCanvasState();
 }
 
 function draw(e) {
-	if (!drawing) return;
+	if (!isDrawing) return;
 
-	ctx.lineWidth = 5;
-	ctx.lineCap = "round";
-	ctx.strokeStyle = cursorColor;
+	context.lineWidth = 5;
+	context.lineCap = "round";
+	context.strokeStyle = cursorColor;
 
-	ctx.lineTo(e.clientX - 8, e.clientY - 173);
-	ctx.stroke();
-	ctx.beginPath();
-	ctx.moveTo(e.clientX - 8, e.clientY - 173);
+	context.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+	context.stroke();
+	context.beginPath();
+	context.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
 }
 
 function saveCanvasState() {
@@ -261,14 +261,24 @@ function undoLastDraw() {
 		const img = new Image();
 		img.src = undoHistory[undoHistory.length - 1];
 		img.onload = function () {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			ctx.drawImage(img, 0, 0);
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			context.drawImage(img, 0, 0);
 		};
 	}
 }
 
+function simulateEvent(e, eventType) {
+	const touch = e.touches[0];
+	const simulatedEvent = new MouseEvent(eventType, {
+		clientX: touch.clientX,
+		clientY: touch.clientY
+	});
+	canvas.dispatchEvent(simulatedEvent);
+	e.preventDefault();
+}
+
 function clearCanvas() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function changeCursorColor(color) {
@@ -282,5 +292,18 @@ canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("contextmenu", event => {
 	event.preventDefault();
 });
+
+canvas.addEventListener("touchstart", function (e) {
+	simulateEvent(e, "mousedown");
+});
+
+canvas.addEventListener("touchmove", function (e) {
+	simulateEvent(e, "mousemove");
+});
+
+canvas.addEventListener("touchend", function (e) {
+	stopDrawing();
+});
+
 undoButton.addEventListener("click", undoLastDraw);
 clearButton.addEventListener("click", clearCanvas);
